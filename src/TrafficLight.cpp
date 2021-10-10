@@ -78,16 +78,16 @@ void TrafficLight::cycleThroughPhases()
     std::chrono::high_resolution_clock::time_point t1;
     std::chrono::high_resolution_clock::time_point t2;
     t1= std::chrono::high_resolution_clock::now();
-    double Phaseduration = 4;
+    std::random_device rnd;
+    std::uniform_int_distribution<int> duration(4,6);
+    double Phaseduration = duration(rnd);
+    
+
     while (true)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         t2= std::chrono::high_resolution_clock::now();
-        std::random_device rnd;
-        std::uniform_int_distribution<int> duration(4,6);
-        double Phaseduration = duration(rnd);
-
-
+    
         auto cycleDuration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
         if (cycleDuration>= Phaseduration)
         {
@@ -100,7 +100,6 @@ void TrafficLight::cycleThroughPhases()
                 _currentPhase=TrafficlightPhase::red;
             }
             t1= std::chrono::high_resolution_clock::now();
-            //need to update the message, which i still don't have yet
             phase.send(std::move(_currentPhase));
         }
     }

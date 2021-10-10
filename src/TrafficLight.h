@@ -43,6 +43,7 @@ public:
     
     // constructor / desctructor
     TrafficLight();
+    ~TrafficLight(){};
     
 
     // getters / settersfff
